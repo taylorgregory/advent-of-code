@@ -44,4 +44,12 @@ print(sum(bool_diff_arr))
 
 ##########################################
 # PART 2: three sum sliding window
+counter = 0
+for idx, val in enumerate(array):
+    if (idx < len(array) - 3):
+        this_sum = array[idx] + array[idx+1] + array[idx+2]
+        next_sum = array[idx+1] + array[idx+2] + array[idx+3]
+        if (next_sum > this_sum):
+            counter = counter + 1
 
+print(counter)
