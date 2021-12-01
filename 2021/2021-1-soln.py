@@ -3,6 +3,20 @@ import numpy as np
 with open('2021-1-input.txt') as inputval:
     lines = inputval.read().split('\n')
 
+array = np.array([int(line) for line in lines])
+
+# solution 1:
+counter = 0
+for idx, val in enumerate(array):
+    if (idx < len(array) - 1):
+        if (array[idx + 1] > array[idx]):
+            counter = counter + 1
+
+print(counter)
+
+############################
+
+# solution 2:
 # aim: have two arrays (arr1 and arr2)
 # trim the first element of arr1 and the last element of arr2
 # arr1 - arr2
@@ -15,7 +29,6 @@ with open('2021-1-input.txt') as inputval:
 #   4
 
 # converting array of strings to array of numbers
-array = np.array([int(line) for line in lines])
 arr1 = np.delete(array, 0)
 arr2 = np.delete(array, len(array) - 1)
 
@@ -25,15 +38,10 @@ bool_diff_arr = np.zeros(len(diff_arr))
 
 for idx, val in enumerate(diff_arr):
     if val > 0:
-        bool_diff_arr[val] = 1
+        bool_diff_arr[idx] = 1
 
 print(sum(bool_diff_arr))
 
 ##########################################
-
-
-
-
-
-# let 0 be a decrease and 1 be an increase
+# PART 2: three sum sliding window
 
