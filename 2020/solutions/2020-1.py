@@ -8,6 +8,8 @@ sorted_array = sorted(int_array)
 
 target_total = 2020
 
+# PART 1: find two numbers that sum to target_total
+
 # initial solution - brute force with efficiency order n^2
 break_flag = False
 for i in int_array:
@@ -47,6 +49,10 @@ print(val1 * val2)
 # todo: hashing
 
 # todo: break into functions
+
+
+# PART 2: find three numbers that sum to target_total
+
 
 
 
