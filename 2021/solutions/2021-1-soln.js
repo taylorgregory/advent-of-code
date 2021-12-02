@@ -1,7 +1,7 @@
 // SETUP
 // Reading the input file
-const fs = require('fs')
-array = fs.readFileSync('2021-1-input.txt', 'utf8').split('\n').map(Number);
+const fs = require('fs');
+array = fs.readFileSync('../inputs/2021-1-input.txt', 'utf8').split('\n').map(Number);
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------- //
 
@@ -10,18 +10,16 @@ array = fs.readFileSync('2021-1-input.txt', 'utf8').split('\n').map(Number);
 
 // SOLUTION 1: 
 // Aim: comparing the side by side elements in a single array loop
-let counter1 = 0;
+let counterA = 0;
 for (let idx = 0; idx < (array.length - 1); idx++) { // Ending the loop at array.length - 1 as this is when there is nothing left to compare
     if (array[idx] < array[idx + 1]) {
-        counter1++;
+        counterA++;
     }
 }
-console.log(counter1);
+console.log(counterA);
 
 // SOLUTION 2: 
-// Aim: have two arrays (arr1 and arr2) and trim the first element of arr1 and last element of arr 2
-// Side by size, these two arrays should look something like this:
-
+// Aim: have two arrays (arr1 and arr2) and trim the first element of arr1 and last element of arr 2. Side by size, these two arrays should look something like this:
 // 2 1
 // 3 2
 // 4 3
@@ -38,11 +36,10 @@ console.log(diff_arr.reduce((a, b) => a + b, 0));
 // ------------------------------------------------------------------------------------------------------------------------------------------------------- //
 
 // -- PART B (Answer = 1471) -- //
-// Task: Count the number of times the sum of measurements in a three measurement
-// sliding window increases from the previous sum
+// Task: Count the number of times the sum of measurements in a three measurement sliding window increases from the previous sum
 
 // SOLUTION 1: 
-let counter2 = 0;
+let counterB = 0;
 let thisSum;
 let nextSum = array[0] + array[1] + array[2]; // Initialising the next sum before entering the loop
 
@@ -50,10 +47,10 @@ for (let idx = 0; idx < (array.length - 3); idx++) { // Ending the loop at array
     thisSum = nextSum;
     nextSum = array[idx + 1] + array[idx + 2] + array[idx + 3];
     if (nextSum > thisSum) {
-        counter2++;
+        counterB++;
     }
 }
-console.log(counter2);
+console.log(counterB);
 
-// SOLUTION 2:
-// TBC
+// ------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
