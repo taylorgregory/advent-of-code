@@ -34,6 +34,56 @@ const epsilonRate = parseInt(epsilonArray.join(''), 2);
 
 console.log(gammaRate * epsilonRate);
 
+// PART B:
 
+let valueToKeep;
 
+let filteredOxygenArr = array;
+for (let idx = 0; idx < 12; idx++) {
+    if (filteredOxygenArr.length > 1) {
+        idxTally = 0;
+        filteredOxygenArr.forEach((element) => {
+            if (element[idx] == '1') {
+                idxTally++;
+            }
+        });
 
+        valueToKeep = (idxTally >= filteredOxygenArr.length/2) ? '1' : '0';
+        filteredOxygenArr = filteredOxygenArr.filter((element) => { 
+            if (element[idx] == valueToKeep) {
+                return element;
+            }
+        });
+    } else {
+        break;
+    }
+}
+const binaryOxygenGeneratorRating = filteredOxygenArr[0];
+const decimalOxygenGeneratorRating = parseInt(binaryOxygenGeneratorRating, 2);
+
+let filteredCarbonArr = array;
+for (let idx = 0; idx < 12; idx++) {
+    if (filteredCarbonArr.length > 1) {
+        idxTally = 0;
+        filteredCarbonArr.forEach((element) => {
+            if (element[idx] == '1') {
+                idxTally++;
+            }
+        });
+
+        valueToKeep = (idxTally < filteredCarbonArr.length/2) ? '1' : '0';
+        filteredCarbonArr = filteredCarbonArr.filter((element) => { 
+            if (element[idx] == valueToKeep) {
+                return element;
+            }
+        });
+        console.log(filteredCarbonArr);
+    } else {
+        break;
+    }
+}
+
+const binaryCarbonDioxideScrubberRating  = filteredCarbonArr[0];
+const decimalCarbonDioxideScrubberRating = parseInt(binaryCarbonDioxideScrubberRating, 2);
+
+console.log(decimalOxygenGeneratorRating * decimalCarbonDioxideScrubberRating);
