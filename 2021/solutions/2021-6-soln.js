@@ -1,6 +1,7 @@
 const fs = require('fs');
 array = fs.readFileSync('../inputs/2021-6-input.txt', 'utf8').split(',').map(Number); 
 
+// PART A
 function simulateOneDayPassing (initialState) {
     let state = initialState.map((lanternfish) => {
         return lanternfish - 1;
@@ -18,22 +19,40 @@ function simulateOneDayPassing (initialState) {
 }
 
 let state = array;
-
-/*for (let i = 0; i < 80; i++) {
+for (let i = 0; i < 80; i++) {
     state = simulateOneDayPassing(state);
-} */
+} 
+console.log(state.length); 
 
-// for part b, we have to consider something different...
-/*state = [1];
-for (let i = 0; i < 256; i++) {
-    state = simulateOneDayPassing(state);
-    console.log(i);
+// PART B
+
+// initialising an empty array
+let partBArray = [];
+for (let i = 0; i < 9; i++) {
+    partBArray[i] = 0;
 }
- 
-console.log(state.length); */
 
-// attempt number one.. just using the loop above.. didn't run
+array.forEach((value) => {
+    partBArray[value]++;
+});
 
-// attempt number 2.. separating into mini arrays of [0], [1] etc and trying to do some math from there. also didn't run
+function simulateOneOtherDayPassing (initialState) {
+    let newState = [];
+    newState[0] = initialState[1];
+    newState[1] = initialState[2];
+    newState[2] = initialState[3];
+    newState[3] = initialState[4];
+    newState[4] = initialState[5];
+    newState[5] = initialState[6];
+    newState[6] = initialState[0] + initialState[7];
+    newState[7] = initialState[8];
+    newState[8] = initialState[0];
+    return newState;
+}
 
-// attempt number 3.. writing a different algorithm
+state = partBArray;
+for (let i = 0; i < 256; i++) {
+    state = simulateOneOtherDayPassing(state);
+} 
+
+console.log(state.reduce((a, b) => a + b, 0));
