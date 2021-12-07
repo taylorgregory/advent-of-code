@@ -30,7 +30,7 @@ console.log(counterA);
 
 const arr1 = array.slice(1, array.length);
 const arr2 = array.slice(0, array.length - 1);
-const diff_arr = arr1.map((val, idx) => { return (val - arr2[idx] > 0) ? 1 : 0 });
+const diff_arr = arr1.map((val, idx) => { return val - arr2[idx] > 0 });
 console.log(diff_arr.reduce((a, b) => a + b, 0));
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------- //

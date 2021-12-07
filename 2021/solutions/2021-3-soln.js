@@ -77,7 +77,6 @@ for (let idx = 0; idx < 12; idx++) {
                 return element;
             }
         });
-        console.log(filteredCarbonArr);
     } else {
         break;
     }

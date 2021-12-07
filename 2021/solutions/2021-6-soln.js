@@ -21,6 +21,7 @@ function simulateOneDayPassing (initialState) {
 let state = array;
 for (let i = 0; i < 80; i++) {
     state = simulateOneDayPassing(state);
+    console.log(i);
 } 
 console.log(state.length); 
 
@@ -35,6 +36,8 @@ for (let i = 0; i < 9; i++) {
 array.forEach((value) => {
     partBArray[value]++;
 });
+
+console.log(partBArray);
 
 function simulateOneOtherDayPassing (initialState) {
     let newState = [];
