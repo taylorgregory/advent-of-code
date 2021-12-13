@@ -1,45 +1,17 @@
 const fs = require('fs');
-array = fs.readFileSync('../inputs/2021-6-input.txt', 'utf8').split(',').map(Number); 
-
-// PART A
-function simulateOneDayPassing (initialState) {
-    let state = initialState.map((lanternfish) => {
-        return lanternfish - 1;
-    });
-
-    let newLanternfish = [];
-    state.forEach((lanternfish, index) => {
-        if (lanternfish == -1) {
-            state[index] = 6;
-            newLanternfish.push(8);
-        }
-    });
-
-    return state.concat(newLanternfish);
-}
-
-let state = array;
-for (let i = 0; i < 80; i++) {
-    state = simulateOneDayPassing(state);
-    console.log(i);
-} 
-console.log(state.length); 
-
-// PART B
+const array = fs.readFileSync('../inputs/2021-6-input.txt', 'utf8').split(',').map(Number); 
 
 // initialising an empty array
-let partBArray = [];
+let array2 = [];
 for (let i = 0; i < 9; i++) {
-    partBArray[i] = 0;
+    array2[i] = 0;
 }
 
 array.forEach((value) => {
-    partBArray[value]++;
+    array2[value]++;
 });
 
-console.log(partBArray);
-
-function simulateOneOtherDayPassing (initialState) {
+function simulateOneDayPassing (initialState) {
     let newState = [];
     newState[0] = initialState[1];
     newState[1] = initialState[2];
@@ -53,9 +25,16 @@ function simulateOneOtherDayPassing (initialState) {
     return newState;
 }
 
-state = partBArray;
-for (let i = 0; i < 256; i++) {
-    state = simulateOneOtherDayPassing(state);
+// PART A
+let state = array2;
+for (let i = 0; i < 80; i++) {
+    state = simulateOneDayPassing(state);
 } 
+console.log(state.length); 
 
-console.log(state.reduce((a, b) => a + b, 0));
+// PART B
+let state2 = array2;
+for (let i = 0; i < 256; i++) {
+    state2 = simulateOneOtherDayPassing(state2);
+} 
+console.log(state2.reduce((a, b) => a + b, 0));
