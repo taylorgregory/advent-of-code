@@ -1,7 +1,6 @@
 // SETUP
 // Reading the input files
 const fs = require('fs');
-const { mainModule } = require('process');
 const numbersDrawn = fs.readFileSync('../inputs/2021-4-input-numbersdrawn.txt', 'utf8').split(',').map(Number);
 
 // Converting the string to arrays of arrays representing each bingo board
@@ -16,33 +15,19 @@ bingoBoards.forEach((element, index) => {
     });
 });
 
-// Function which marks the given number off on every board
-function checkOffNumberOnBoards (number, boards, boardMap) {
-    boards.forEach((board, index) => {
-        board.forEach((row, rowIndex) => {
-            row.forEach((rowValue, rowValueIndex) => {
-                if (rowValue == number) {
-                    boardMap[index][rowIndex][rowValueIndex] = 1;
-                }
-            });
-        });
-    });
-    return boardMap;
-}
 
-// Function which checks for any winning boards. Should only be called after the 5th number is drawn
-function checkForWinningBoards(boardMap) {
-    for (boardIdx = 0; boardIdx < boardMap.length; boardIdx++) {
-        let boardColumnTotals = [0,0,0,0,0];
-        for (boardRowIdx = 0; boardRowIdx < boardMap[boardIdx].length; boardRowIdx++) {
-            rowTotal = boardMap[boardIdx][boardRowIdx].reduce((a, b) => a + b, 0);
-            if (rowTotal == 5) {
-                return boardIdx;
-            }
-            for (boardRowValIdx = 0; boardRowValIdx < boardMap[boardIdx][boardRowIdx].length; boardRowValIdx++) {
-                boardColumnTotals[boardRowValIdx] += boardMap[boardIdx][boardRowIdx][boardRowValIdx];
-                if (boardColumnTotals[boardRowValIdx] == 5) {
-                    return boardIdx;
+// Function which marks the given number off on every board
+function checkOffNumberOnBoards (number) {
+    for (let i = 0; i < bingoBoards.length; i++) {
+        for (let j = 0; j < bingoBoards[i].length; j++) {
+            for (let k = 0; k < bingoBoards[i][j].length; k++) {
+                if (bingoBoards[i][j][k] == number) {
+                    bingoBoardsMap[i][j][k] = 1;
+                    winningBoard = checkIfWon(i, j, k);
+                    if (winningBoard) {
+                        return winningBoard;
+                        // do i need a break here?
+                    }
                 }
             }
         }
@@ -50,22 +35,39 @@ function checkForWinningBoards(boardMap) {
     return null;
 }
 
-// 
+function checkIfWon(boardNumber, rowNumber, columnNumber) {
+    rowTotal = bingoBoardsMap[boardNumber][rowNumber].reduce((a, b) => a + b, 0);
+    if (rowTotal == 5) {
+        return boardNumber;
+    }
+
+    let boardColumnTotal = 0;
+    for (boardRowIdx = 0; boardRowIdx < bingoBoardsMap[boardNumber].length; boardRowIdx++) {
+        boardColumnTotal += bingoBoardsMap[boardNumber][boardRowIdx][columnNumber];
+        if (boardColumnTotal == 5) {
+            return boardNumber;
+        }
+    }
+    return null;
+}
 
 function completePartA() {
     for (let i = 0; i < numbersDrawn.length; i++) {
-    bingoBoardsMap = checkOffNumberOnBoards(numbersDrawn[i], bingoBoards, bingoBoardsMap);
-    winningBoardIdx = checkForWinningBoards(bingoBoardsMap);
-    if (winningBoardIdx) {
-        remainingNumbersTotal = 0;
-        for (j = 0; j < bingoBoardsMap[winningBoardIdx].length; j++) {
-            for (k = 0; k < bingoBoardsMap[winningBoardIdx][j].length; k++) {
-                if (bingoBoardsMap[winningBoardIdx][j][k] == 0) {
-                    remainingNumbersTotal += bingoBoards[winningBoardIdx][j][k];
+        winningBoardIdx = checkOffNumberOnBoards(numbersDrawn[i]);
+
+        if (winningBoardIdx) {
+            remainingNumbersTotal = 0;
+            for (j = 0; j < bingoBoardsMap[winningBoardIdx].length; j++) {
+                for (k = 0; k < bingoBoardsMap[winningBoardIdx][j].length; k++) {
+                    if (bingoBoardsMap[winningBoardIdx][j][k] == 0) {
+                        remainingNumbersTotal += bingoBoards[winningBoardIdx][j][k];
+                    }
                 }
             }
+            console.log(remainingNumbersTotal * numbersDrawn[i]);
+            break;
         }
-        console.log(remainingNumbersTotal * numbersDrawn[i]);
-        break;
     }
 }
+
+completePartA();
