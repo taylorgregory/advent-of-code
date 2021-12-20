@@ -1,14 +1,13 @@
 const fs = require('fs');
 const array = fs.readFileSync('../inputs/2021-6-input.txt', 'utf8').split(',').map(Number); 
 
-// initialising an empty array
-let array2 = [];
+// Compacting the original array into an array of fixed size that just tallies quantities
+let compactArr = [];
 for (let i = 0; i < 9; i++) {
-    array2[i] = 0;
+    compactArr[i] = 0;
 }
-
 array.forEach((value) => {
-    array2[value]++;
+    compactArr[value]++;
 });
 
 function simulateOneDayPassing (initialState) {
@@ -26,15 +25,15 @@ function simulateOneDayPassing (initialState) {
 }
 
 // PART A
-let state = array2;
+let partAState = compactArr;
 for (let i = 0; i < 80; i++) {
-    state = simulateOneDayPassing(state);
+    partAState = simulateOneDayPassing(partAState);
 } 
-console.log(state.length); 
+console.log(partAState.length); 
 
 // PART B
-let state2 = array2;
+let partBState = compactArr;
 for (let i = 0; i < 256; i++) {
-    state2 = simulateOneOtherDayPassing(state2);
+    partBState = simulateOneDayPassing(partBState);
 } 
-console.log(state2.reduce((a, b) => a + b, 0));
+console.log(partBState.reduce((a, b) => a + b, 0));

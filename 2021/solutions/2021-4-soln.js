@@ -17,22 +17,25 @@ bingoBoards.forEach((element, index) => {
 
 
 // Function which marks the given number off on every board
-function checkOffNumberOnBoards (number) {
+function checkOffNumberOnBoards (number, playingToWin = true) {
+    let winningBoards = [];
     for (let i = 0; i < bingoBoards.length; i++) {
         for (let j = 0; j < bingoBoards[i].length; j++) {
             for (let k = 0; k < bingoBoards[i][j].length; k++) {
                 if (bingoBoards[i][j][k] == number) {
                     bingoBoardsMap[i][j][k] = 1;
-                    winningBoard = checkIfWon(i, j, k);
+                    let winningBoard = checkIfWon(i, j, k);
                     if (winningBoard) {
-                        return winningBoard;
-                        // do i need a break here?
+                        winningBoards.push(winningBoard);
+                        if (playingToWin) {
+                            return winningBoards;
+                        }
                     }
                 }
             }
         }
     }
-    return null;
+    return winningBoards;
 }
 
 function checkIfWon(boardNumber, rowNumber, columnNumber) {
@@ -51,23 +54,45 @@ function checkIfWon(boardNumber, rowNumber, columnNumber) {
     return null;
 }
 
+function calculateFinalScore(boardIdx, numberDrawn) {
+    remainingNumbersTotal = 0;
+    for (j = 0; j < bingoBoardsMap[boardIdx].length; j++) {
+        for (k = 0; k < bingoBoardsMap[boardIdx][j].length; k++) {
+            if (bingoBoardsMap[boardIdx][j][k] == 0) {
+                remainingNumbersTotal += bingoBoards[boardIdx][j][k];
+            }
+        }
+    }
+    return remainingNumbersTotal * numberDrawn;
+}
+
 function completePartA() {
     for (let i = 0; i < numbersDrawn.length; i++) {
-        winningBoardIdx = checkOffNumberOnBoards(numbersDrawn[i]);
-
-        if (winningBoardIdx) {
-            remainingNumbersTotal = 0;
-            for (j = 0; j < bingoBoardsMap[winningBoardIdx].length; j++) {
-                for (k = 0; k < bingoBoardsMap[winningBoardIdx][j].length; k++) {
-                    if (bingoBoardsMap[winningBoardIdx][j][k] == 0) {
-                        remainingNumbersTotal += bingoBoards[winningBoardIdx][j][k];
-                    }
-                }
-            }
-            console.log(remainingNumbersTotal * numbersDrawn[i]);
+        winningBoard = checkOffNumberOnBoards(numbersDrawn[i]);
+        if (winningBoard.length > 0) {
+            console.log(calculateFinalScore(winningBoard[0], numbersDrawn[i]));
             break;
         }
     }
 }
 
+function completePartB() {
+    for (let i = 0; i < numbersDrawn.length; i++) {
+        winningBoardIdx = checkOffNumberOnBoards(numbersDrawn[i], false);
+        if (winningBoardIdx.length > 0) {
+            if (bingoBoards.length > 1) {
+                for (j = winningBoardIdx.length - 1; j >= 0; j--){
+                    console.log(bingoBoardsMap[winningBoardIdx[j]]);
+                    bingoBoards.splice(winningBoardIdx[j], 1);               
+                    bingoBoardsMap.splice(winningBoardIdx[j], 1);
+                }
+                console.log(bingoBoards);
+            } else {
+                console.log(calculateFinalScore(winningBoardIdx[0], numbersDrawn[i]));
+            }
+        }
+    }
+}
+
 completePartA();
+completePartB();
