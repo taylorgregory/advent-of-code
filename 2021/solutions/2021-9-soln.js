@@ -25,5 +25,41 @@ for (i = 0; i < array.length; i++) { // rows
 
 console.log(sumOfRiskLevels);
 
+/* Big ol unfinished draft.... do not critique too harshly... 
 // PART B: 
+arrayOfBasinSizes = [];
+for (i = 0; i < array.length; i++) { // rows
+    for (j = 0; j < array[i].length; j++) { // columns
+        if (array[i][j] != 9) {
+            currentBasinSize = array[i][j];
+            array[i][j] = 9; // assigning this value to 9 so it is never considered in another basin
 
+            rowIdxToCheck = i;
+            columnIdxToCheck = j;
+
+            scanningLeft = true;
+            while (scanningLeft) {
+                
+                currentBasinSize = array[rowIdxToCheck][columnIdxToCheck];
+                array[i][j] = 9; // assigning this value to 9 so it is never considered in another basin
+
+                if (array[rowIdxToCheck][columnIdxToCheck] == 9) {
+                    scanningLeft = false;
+                    break;
+                } else {
+
+                }
+            }
+
+            scanningRight = true;
+            while (scanningRight) {
+
+            }
+
+            
+
+            stillInCurrentBasin = true;
+
+        }
+    }
+} */
