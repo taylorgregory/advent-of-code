@@ -1,59 +1,78 @@
 // SETUP
 // Reading the input file
 const fs = require('fs');
-array = fs.readFileSync('../inputs/2022-1-input.txt', 'utf8').split('\n').map(Number);
+array = fs.readFileSync('../inputs/2022-2-input.txt', 'utf8').split('\n');
+
+opponentMoves = array.map((move) => move[0]);
+myMoves = array.map((move) => move[2]);
+
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------- //
 
-// -- PART A (Answer = 70374) -- //
+// -- PART A (Answer = 10941) -- //
 // Task: __
 
-// Initialising maxCals to keep track of the current maximum calories
-maxCals = 0
+// A and X = rock
+// B and Y = paper 
+// C and Z = scissors
 
-// Initialisign currentTotal to keep track of the current elf's calories
-currentTotal = 0
+winLossObject = {
+    'A X': 3,
+    'A Y': 6,
+    'A Z': 0,
+    'B X': 0,
+    'B Y': 3,
+    'B Z': 6,
+    'C X': 6,
+    'C Y': 0,
+    'C Z': 3
+};
 
-array.forEach(foodCals => {
-    if (foodCals == "") {
-        if (currentTotal > maxCals) {
-            maxCals = currentTotal
-        }
-        currentTotal = 0
-    } else {
-        currentTotal += foodCals
-    }
+moveObject = {
+    'X': 1,
+    'Y': 2,
+    'Z': 3
+};
+
+myPoints = 0;
+
+array.forEach(round => {
+    myPoints += winLossObject[round] + moveObject[round[2]];
 });
 
-console.log(maxCals)
+console.log(myPoints);
 
-// -- PART B (Answer = 204610) -- //
+// -- PART B (Answer = 10941) -- //
+// Task: __
 
-maxCalArray = {
-    "first": 0,
-    "second": 0,
-    "third": 0
+lossObject = {
+    'A': 'Z',
+    'B': 'X',
+    'C': 'Y'
 }
 
-currentTotal = 0
+drawObject = {
+    'A': 'X',
+    'B': 'Y',
+    'C': 'Z'
+}
 
-array.forEach(foodCals => {
-    if (foodCals == "") {
-        if (currentTotal > maxCalArray["first"]) {
-            maxCalArray["third"] = maxCalArray["second"]
-            maxCalArray["second"] = maxCalArray["first"]
-            maxCalArray["first"] = currentTotal
-        } else if (currentTotal < maxCalArray["first"] && currentTotal > maxCalArray["second"]) {
-            maxCalArray["third"] = maxCalArray["second"]
-            maxCalArray["second"] = currentTotal
-        } else if (currentTotal < maxCalArray["second"] && currentTotal > maxCalArray["third"]) {
-            maxCalArray["third"] = currentTotal
-        }
+winObject = {
+    'A': 'Y',
+    'B': 'Z',
+    'C': 'X'
+}
 
-        currentTotal = 0
-    } else {
-        currentTotal += foodCals
+myPoints = 0;
+
+array.forEach(round => {
+    if (round[2] == 'X') {
+        myPoints += 0 + moveObject[lossObject[round[0]]]
+    } else if (round[2] == 'Y') {
+        myPoints += 3 + moveObject[drawObject[round[0]]]
+    } else if (round[2] == 'Z') {
+        myPoints += 6 + moveObject[winObject[round[0]]]
     }
 });
 
-console.log(maxCalArray["first"] + maxCalArray["second"] + maxCalArray["third"])
+console.log(myPoints);
