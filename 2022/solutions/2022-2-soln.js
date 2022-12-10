@@ -3,10 +3,6 @@
 const fs = require('fs');
 array = fs.readFileSync('../inputs/2022-2-input.txt', 'utf8').split('\n');
 
-opponentMoves = array.map((move) => move[0]);
-myMoves = array.map((move) => move[2]);
-
-
 // ------------------------------------------------------------------------------------------------------------------------------------------------------- //
 
 // -- PART A (Answer = 10941) -- //
