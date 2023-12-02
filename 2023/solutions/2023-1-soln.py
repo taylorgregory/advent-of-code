@@ -7,9 +7,7 @@ rolling_total = 0
 
 for i in range(len(input_arr)):
     filtered_row = re.sub('\D', '', input_arr[i])
-    first_num = filtered_row[0]
-    last_num = filtered_row[len(filtered_row) - 1]
-    rolling_total += int(first_num + last_num)
+    rolling_total += int(filtered_row[0] + filtered_row[len(filtered_row) - 1])
 
 print(rolling_total)
 
