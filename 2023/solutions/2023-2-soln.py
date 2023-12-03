@@ -20,7 +20,7 @@ for i in range(len(input_arr)):
             valid_draw = False
             break
         
-    if valid_draw == True:
+    if valid_draw:
         id_total += i + 1
 
 print(id_total)
