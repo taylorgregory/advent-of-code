@@ -1,6 +1,7 @@
-with open('../inputs/2023-2-input.txt') as file:
+with open('Untitled2.txt') as file:
     input_arr = file.read().splitlines()
 
+# PART A
 colours_in_bag =  {
     "red": 12,
     "green": 13,
@@ -23,3 +24,26 @@ for i in range(len(input_arr)):
         id_total += i + 1
 
 print(id_total)
+
+# PART B
+power_total = 0
+
+for i in range(len(input_arr)):
+    game_data = input_arr[i].split(': ')[1].replace(';', ',').split(', ')
+    
+    red_max = 0
+    green_max = 0
+    blue_max = 0
+    
+    for j in range(len(game_data)):
+        current_draw = game_data[j].split(' ')
+        if current_draw[1] == 'red' and int(current_draw[0]) > red_max:
+            red_max = int(current_draw[0])
+        elif current_draw[1] == 'green' and int(current_draw[0]) > green_max:
+            green_max = int(current_draw[0])
+        elif current_draw[1] == 'blue' and int(current_draw[0]) > blue_max:
+            blue_max = int(current_draw[0])
+            
+    power_total += red_max * green_max * blue_max
+    
+print(power_total)
