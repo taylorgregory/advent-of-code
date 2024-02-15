@@ -4,7 +4,7 @@ with open('../inputs/2023-4-input.txt') as file:
     input_arr = file.read().splitlines()
 
 total_counter = 0
-results = numpy.ones((len(input_arr), 2))
+results = numpy.ones((len(input_arr), 1))
 part_b_total = 0
 
 for i in range(len(input_arr)):
@@ -26,16 +26,14 @@ for i in range(len(input_arr)):
         if your_number in winning_numbers:
             num_wins += 1
 
-    # update num wins in arr
-    results[i][0] = num_wins
-
     # update num cards
     for j in range(1, num_wins + 1):
-        results[i+j][1] += results[i][1]
+        results[i+j] += results[i]
 
 
 for result in results:
-    part_b_total += int(result[1])
+    part_b_total += int(result[0])
+# END PART B #
 
 print(total_counter)
 print(part_b_total)
