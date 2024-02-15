@@ -21,7 +21,7 @@ def check_location(row, column):
             number += str(input_arr[row][k])
             input_arr[row][k] = '.'
         
-        return number
+        return int(number)
     else:
         return 0
 
@@ -31,13 +31,13 @@ for i in range(len(input_arr)):
     for j in range(len(input_arr[i])):
         # if it is a special character
         if not input_arr[i][j].isnumeric() and input_arr[i][j] != '.':
-            total += int(check_location(i-1, j-1))
-            total += int(check_location(i-1, j))
-            total += int(check_location(i-1, j+1))
-            total += int(check_location(i, j-1))
-            total += int(check_location(i, j+1))
-            total += int(check_location(i+1, j-1))
-            total += int(check_location(i+1, j))
-            total += int(check_location(i+1, j+1))            
+            total += check_location(i-1, j-1)
+            total += check_location(i-1, j)
+            total += check_location(i-1, j+1)
+            total += check_location(i, j-1)
+            total += check_location(i, j+1)
+            total += check_location(i+1, j-1)
+            total += check_location(i+1, j)
+            total += check_location(i+1, j+1)           
 
 print(total)
