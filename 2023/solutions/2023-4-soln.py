@@ -10,10 +10,7 @@ for i in range(len(input_arr)):
     counter = 0
     for your_number in your_numbers:
         if your_number in winning_numbers:
-            if counter == 0:
-                counter = 1
-            else:
-                counter *= 2
+            counter = 1 if counter == 0 else counter * 2
 
     total_counter += counter
 
