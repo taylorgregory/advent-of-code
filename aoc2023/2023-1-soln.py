@@ -13,14 +13,13 @@ def part_a(input):
 
 def part_b(input):
     rolling_total = 0
-    for i in range(len(input)):
-        this_row = input[i]
+    for row in input:
         # HATE this (but works for now)..TBC:
         words_to_nums = {'one': 'one1one', 'two': 'two2two', 'three': 'three3three', 'four': 'four4four', 'five': 'five5five', 'six': 'six6six', 'seven': 'seven7seven', 'eight': 'eight8eight', 'nine': 'nine9nine'}
         for key, value in words_to_nums.items():
-            this_row = this_row.replace(key, value)
+            row = row.replace(key, value)
 
-        filtered_row = re.sub('\D', '', this_row)
+        filtered_row = re.sub('\D', '', row)
         first_num = filtered_row[0]
         last_num = filtered_row[len(filtered_row) - 1]
         rolling_total += int(first_num + last_num)
