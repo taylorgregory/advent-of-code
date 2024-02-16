@@ -26,32 +26,42 @@ def part_a(input):
 def part_b(input):
     power_total = 0
     for row in input:
-        game_data = row.split(': ')[1].replace(';', ',').split(', ')
-        
         max_cols =  {
             "red": 0,
             "green": 0,
             "blue": 0
         }
         
+        game_data = row.split(': ')[1].replace(';', ',').split(', ')
+        
         for data in game_data:
-            current_draw = data.split(' ')   
-            if int(current_draw[0]) > max_cols[current_draw[1]]:
-                max_cols[current_draw[1]] = int(current_draw[0])
+            this_number, this_colour = data.split(' ')   
+            if int(this_number) > max_cols[this_colour]:
+                max_cols[this_colour] = int(this_number)
                 
         power_total += max_cols['red'] * max_cols['green'] * max_cols['blue']
         
     return power_total
 
 if __name__ == "__main__":
-    input_arr = get_data(day=2, year=2023).splitlines()
-
-    # Part A
-    part_a_answer = part_a(input_arr)
-    print("Submitting " + str(part_a_answer) + " for Part A...")
-    submit(part_a_answer, part="a", day=2, year=2023)
+    test_data_a = '''Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
+Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
+Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
+Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
+Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green'''.splitlines()
     
-    # Part B
-    part_b_answer = part_b(input_arr)
-    print("Submitting " + str(part_b_answer) + " for Part B...")
-    submit(part_b_answer, part="b", day=2, year=2023)
+    test_data_b = '''Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
+Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
+Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
+Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
+Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green'''.splitlines()
+
+    data = get_data(day=2, year=2023).splitlines()
+
+    # Run tests for Part A and Part B
+    assert part_a(test_data_a) == 8
+    assert part_b(test_data_b) == 2286
+
+    # Submit answers for Part A and Part B
+    submit(part_a(data), part="a", day=2, year=2023)    
+    submit(part_b(data), part="b", day=2, year=2023)
