@@ -1,7 +1,6 @@
-import re
+from aocd import get_data
 
-with open('../inputs/2023-3-input.txt') as file:
-    input_arr = file.read().splitlines()
+input_arr = get_data(day=3, year=2023).splitlines()
 
 for i in range(len(input_arr)):
     input_arr[i] = [char for char in input_arr[i]]

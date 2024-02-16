@@ -1,7 +1,7 @@
 import numpy
+from aocd import get_data
 
-with open('../inputs/2023-4-input.txt') as file:
-    input_arr = file.read().splitlines()
+input_arr = get_data(day=4, year=2023).splitlines()
 
 total_counter = 0
 results = numpy.ones((len(input_arr), 1))

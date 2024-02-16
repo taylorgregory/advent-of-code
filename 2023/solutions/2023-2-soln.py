@@ -1,5 +1,6 @@
-with open('../inputs/2023-2-input.txt') as file:
-    input_arr = file.read().splitlines()
+from aocd import get_data
+
+input_arr = get_data(day=2, year=2023).splitlines()
 
 # PART A
 colours_in_bag =  {

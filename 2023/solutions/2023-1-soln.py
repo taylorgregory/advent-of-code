@@ -1,7 +1,7 @@
 import re
+from aocd import get_data
 
-with open('../inputs/2023-1-input.txt') as file:
-    input_arr = file.read().splitlines()
+input_arr = get_data(day=1, year=2023).splitlines()
 
 rolling_total = 0
 
