@@ -11,14 +11,14 @@ def format_data(input_str):
 def part_a(input):
     total = 0
     for winning_numbers, your_numbers in input:
-        common_numbers = [value for value in your_numbers if value in winning_numbers]
+        common_numbers = list(set(winning_numbers).intersection(your_numbers))
         total += 2 ** (len(common_numbers)-1) if len(common_numbers) > 0 else 0
     return total
 
 def part_b(input):
     results = [1] * len(input)
     for i, (winning_numbers, your_numbers) in enumerate(input):
-        common_numbers = [value for value in your_numbers if value in winning_numbers]
+        common_numbers = list(set(winning_numbers).intersection(your_numbers))
         for j in range(1, len(common_numbers) + 1):
             results[i+j] += results[i] 
     return sum(results)
