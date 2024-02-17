@@ -3,9 +3,8 @@ from aocd import get_data, submit
 def format_data(input_str):
     data = []
     for row in input_str.splitlines():
-        winning_numbers = row.split(": ")[1].split(" | ")[0].replace("  ", " ").strip().split(" ")
-        your_numbers = row.split(": ")[1].split(" | ")[1].replace("  ", " ").strip().split(" ")
-        data.append((winning_numbers, your_numbers))
+        winning_numbers, your_numbers = row.split(": ")[1].replace("  ", " ").split(" | ")
+        data.append((winning_numbers.strip().split(" "), your_numbers.strip().split(" ")))
     return data
 
 def part_a(input):
