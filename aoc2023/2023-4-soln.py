@@ -1,39 +1,51 @@
 import numpy
-from aocd import get_data
+from aocd import get_data, submit
 
-input_arr = get_data(day=4, year=2023).splitlines()
+def format_data(input_str):
+    data = []
+    for row in input_str.splitlines():
+        winning_numbers = row.split(": ")[1].split(" | ")[0].replace("  ", " ").strip().split(" ")
+        your_numbers = row.split(": ")[1].split(" | ")[1].replace("  ", " ").strip().split(" ")
+        data.append((winning_numbers, your_numbers))
+    return data
 
-total_counter = 0
-results = numpy.ones((len(input_arr), 1))
-part_b_total = 0
+def part_a(input):
+    total = 0
+    for winning_numbers, your_numbers in input:
+        counter = 0
+        for your_number in your_numbers:
+            if your_number in winning_numbers:
+                counter = 1 if counter == 0 else counter * 2
+        total += counter
+    return total
 
-for i in range(len(input_arr)):
-    winning_numbers = input_arr[i].split(": ")[1].split(" | ")[0].replace("  ", " ").strip().split(" ")
-    your_numbers = input_arr[i].split(": ")[1].split(" | ")[1].replace("  ", " ").strip().split(" ")
+def part_b(input):
+    results = [1] * len(input)
+    for i, (winning_numbers, your_numbers) in enumerate(input):
+        num_wins = 0
+        for your_number in your_numbers:
+            if your_number in winning_numbers:
+                num_wins += 1
 
-    # PART A START #
-    counter = 0
-    for your_number in your_numbers:
-        if your_number in winning_numbers:
-            counter = 1 if counter == 0 else counter * 2
+        for j in range(1, num_wins + 1):
+            results[i+j] += results[i]
+            
+    return sum(results)
 
-    total_counter += counter
-    # PART A END #
+if __name__ == "__main__":
+    # Testing
+    test_string = '''Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
+    Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19
+    Card 3:  1 21 53 59 44 | 69 82 63 72 16 21 14  1
+    Card 4: 41 92 73 84 69 | 59 84 76 51 58  5 54 83
+    Card 5: 87 83 26 28 32 | 88 30 70 12 93 22 82 36
+    Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11'''
 
-    # PART B START #
-    num_wins = 0
-    for your_number in your_numbers:
-        if your_number in winning_numbers:
-            num_wins += 1
+    test_data = format_data(test_string)
+    assert part_a(test_data) == 13
+    assert part_b(test_data) == 30
 
-    # update num cards
-    for j in range(1, num_wins + 1):
-        results[i+j] += results[i]
-
-
-for result in results:
-    part_b_total += int(result[0])
-# END PART B #
-
-print(total_counter)
-print(part_b_total)
+    # Solve
+    data = format_data(get_data(day=4, year=2023))
+    submit(part_a(data), part="a", day=4, year=2023)    
+    submit(part_b(data), part="b", day=4, year=2023)
