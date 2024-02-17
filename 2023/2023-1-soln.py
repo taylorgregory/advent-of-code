@@ -27,6 +27,7 @@ def part_b(input):
     return rolling_total
 
 if __name__ == "__main__":
+    # Get all data
     test_data_a = '''1abc2
 pqr3stu8vwx
 a1b2c3d4e5f
