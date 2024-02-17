@@ -1,4 +1,3 @@
-import numpy
 from aocd import get_data, submit
 
 def format_data(input_str):
@@ -12,24 +11,16 @@ def format_data(input_str):
 def part_a(input):
     total = 0
     for winning_numbers, your_numbers in input:
-        counter = 0
-        for your_number in your_numbers:
-            if your_number in winning_numbers:
-                counter = 1 if counter == 0 else counter * 2
-        total += counter
+        common_numbers = [value for value in your_numbers if value in winning_numbers]
+        total += 2 ** (len(common_numbers)-1) if len(common_numbers) > 0 else 0
     return total
 
 def part_b(input):
     results = [1] * len(input)
     for i, (winning_numbers, your_numbers) in enumerate(input):
-        num_wins = 0
-        for your_number in your_numbers:
-            if your_number in winning_numbers:
-                num_wins += 1
-
-        for j in range(1, num_wins + 1):
-            results[i+j] += results[i]
-            
+        common_numbers = [value for value in your_numbers if value in winning_numbers]
+        for j in range(1, len(common_numbers) + 1):
+            results[i+j] += results[i] 
     return sum(results)
 
 if __name__ == "__main__":
