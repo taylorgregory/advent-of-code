@@ -1,5 +1,4 @@
 from aocd import get_data, submit
-from functools import reduce
 
 def format_data(input_str):
     data = []
@@ -8,9 +7,17 @@ def format_data(input_str):
         data.append((winning_numbers.strip().split(" "), your_numbers.strip().split(" ")))
     return data
 
+# Iterative Part A (unused)
+def part_a_iter(input):
+    total = 0
+    for winning_numbers, your_numbers in input:
+        common_numbers = list(set(winning_numbers).intersection(your_numbers))
+        total += 2 ** (len(common_numbers)-1) if len(common_numbers) > 0 else 0
+    return total
+
 def part_a(input):
-    common_numbers = [set(x[0]).intersection(x[1]) for x in input]
-    return sum([(2**(len(x)-1) if len(x) > 0 else 0) for x in common_numbers])
+    num_common = [len(set(x[0]).intersection(x[1])) for x in input]
+    return sum([(2**(x-1) if x > 0 else 0) for x in num_common])
 
 def part_b(input):
     results = [1] * len(input)
