@@ -36,6 +36,17 @@ def part_a(seeds, maps):
         locations.append(current_mapping)
     return(min(locations))
 
+def part_b(seeds, maps):
+    locations = []
+    for seed in range(int(seeds[0]), int(seeds[0]) + int(seeds[1])):
+        current_mapping = seed
+        for i in range(len(maps)):
+            current_mapping = perform_mapping(i, maps, current_mapping)
+        locations.append(current_mapping)
+    return(min(locations))
+    # haha, does not run. will need to come back later
+
+
 if __name__ == "__main__":
     # Testing
     test_string = '''seeds: 79 14 55 13
@@ -75,4 +86,5 @@ humidity-to-location map:
     test_seeds, test_maps = format_data(test_string)
     assert part_a(test_seeds, test_maps) == 35
     seeds, maps = format_data(get_data(day=5, year=2023))
-    submit(part_a(seeds, maps), part="a", day=5, year=2023)  
+    #submit(part_a(seeds, maps), part="a", day=5, year=2023)  
+    print(part_b(test_seeds, test_maps))
