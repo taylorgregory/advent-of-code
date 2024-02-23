@@ -12,22 +12,23 @@ def format_data(input_str):
     return instructions, dict
 
 def part_a(instructions, dict):
-
     lr_dict = {
         "L": 0,
         "R": 1
     }
 
-    current_location = "AAA"
-    current_mod_counter = 0
+    location = "AAA"
+    mod_counter = 0
     num_moves = 0
-    while current_location != "ZZZ":
-        current_instruction_ind = current_mod_counter % len(instructions)
-        current_location = dict[current_location][lr_dict[instructions[current_instruction_ind]]]
-        current_mod_counter += 1
+    while location != "ZZZ":
+        location = dict[location][lr_dict[instructions[mod_counter % len(instructions)]]]
+        mod_counter += 1
         num_moves += 1
 
     return num_moves
+
+def part_b(instructions, dict):
+    return instructions, dict
 
 if __name__ == "__main__":
     # Testing
