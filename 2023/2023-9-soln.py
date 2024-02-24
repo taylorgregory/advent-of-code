@@ -24,6 +24,26 @@ def part_a(input):
 
     return sum
 
+def part_b(input):
+    sum = 0
+    for history in input:
+        diff_arr = [history]
+        diff_counter = 0
+        while Counter(diff_arr[diff_counter])[0] != len(diff_arr[diff_counter]):
+            diff_counter += 1
+            this_diff = []
+            for i in range(1, len(diff_arr[diff_counter-1])):
+                this_diff.append(diff_arr[diff_counter-1][i] - diff_arr[diff_counter-1][i-1])
+            diff_arr.append(this_diff)
+    
+        for i in reversed(range(len(diff_arr)-1)):
+            num_to_append = diff_arr[i][0] - (diff_arr[i+1][0])
+            diff_arr[i].insert(0, num_to_append)
+        
+        sum += diff_arr[0][0]
+
+    return sum
+
 if __name__ == "__main__":
     # Testing
     test_string = '''0 3 6 9 12 15
@@ -32,6 +52,8 @@ if __name__ == "__main__":
 
     test_arr = format_data(test_string)
     assert part_a(test_arr) == 114
+    assert part_b(test_arr) == 2
 
     data = format_data(get_data(day=9, year=2023))
     submit(part_a(data), part="a", day=9, year=2023) 
+    submit(part_b(data), part="b", day=9, year=2023) 
