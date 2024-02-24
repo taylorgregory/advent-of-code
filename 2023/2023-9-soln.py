@@ -4,44 +4,35 @@ from collections import Counter
 def format_data(input_str):
     return [[int(y) for y in x.split(" ")] for x in input_str.splitlines()]
 
+def calculate_history(sequence):
+    full_history = [sequence]
+    diff_counter = 0
+    while Counter(full_history[diff_counter])[0] != len(full_history[diff_counter]):
+        diff_counter += 1
+        this_diff = []
+        for i in range(1, len(full_history[diff_counter-1])):
+            this_diff.append(full_history[diff_counter-1][i] - full_history[diff_counter-1][i-1])
+        full_history.append(this_diff)
+    return full_history
+
 def part_a(input):
     sum = 0
-    for history in input:
-        diff_arr = [history]
-        diff_counter = 0
-        while Counter(diff_arr[diff_counter])[0] != len(diff_arr[diff_counter]):
-            diff_counter += 1
-            this_diff = []
-            for i in range(1, len(diff_arr[diff_counter-1])):
-                this_diff.append(diff_arr[diff_counter-1][i] - diff_arr[diff_counter-1][i-1])
-            diff_arr.append(this_diff)
-    
-        for i in reversed(range(len(diff_arr)-1)):
-            num_to_append = diff_arr[i][len(diff_arr[i])-1] + (diff_arr[i+1][len(diff_arr[i+1])-1])
-            diff_arr[i].append(num_to_append)
-        
-        sum += diff_arr[0][len(diff_arr[0])-1]
-
+    for sequence in input:
+        history = calculate_history(sequence)
+        for i in reversed(range(len(history)-1)):
+            num_to_append = history[i][len(history[i])-1] + (history[i+1][len(history[i+1])-1])
+            history[i].append(num_to_append)      
+        sum += history[0][len(history[0])-1]
     return sum
 
 def part_b(input):
     sum = 0
-    for history in input:
-        diff_arr = [history]
-        diff_counter = 0
-        while Counter(diff_arr[diff_counter])[0] != len(diff_arr[diff_counter]):
-            diff_counter += 1
-            this_diff = []
-            for i in range(1, len(diff_arr[diff_counter-1])):
-                this_diff.append(diff_arr[diff_counter-1][i] - diff_arr[diff_counter-1][i-1])
-            diff_arr.append(this_diff)
-    
-        for i in reversed(range(len(diff_arr)-1)):
-            num_to_append = diff_arr[i][0] - (diff_arr[i+1][0])
-            diff_arr[i].insert(0, num_to_append)
-        
-        sum += diff_arr[0][0]
-
+    for sequence in input:
+        history = calculate_history(sequence)    
+        for i in reversed(range(len(history)-1)):
+            num_to_append = history[i][0] - (history[i+1][0])
+            history[i].insert(0, num_to_append)
+        sum += history[0][0]
     return sum
 
 if __name__ == "__main__":
