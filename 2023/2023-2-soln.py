@@ -1,11 +1,12 @@
 from aocd import get_data, submit
 
+# Returns each game as an array of colours drawn. The concept of draws is not kept
 def format_data(input_str):
-    data = []
-    for row in input_str.splitlines():
-        data.append(row.split(': ')[1].replace(';', ',').split(', '))
-    return data
-
+    # GOAL:
+    # Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
+    # [[{"blue": 3, "red": 4}, {"red": 1, "green": 2, "blue": 6}, {"green": 2}], [{},{}]]
+    # to pick up another day...  
+    return [game.split(": ")[1].replace(";", ",").split(", ") for game in input_str.splitlines()]
 
 def part_a(input):
     colours_in_bag =  {
