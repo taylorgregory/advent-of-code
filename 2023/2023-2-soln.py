@@ -47,7 +47,7 @@ def part_a(input):
     # Amount of each colour in the bag as defined by the Elf
     bag =  { "red": 12, "green": 13, "blue": 14 }
     max = [get_max_cols(game) for game in input]
-    return sum([i+1 if all(int(game[key]) <= bag[key] for key in bag.keys()) else 0 for i, game in enumerate(max)])
+    return sum([i+1 if all(game[key] <= bag[key] for key in bag.keys()) else 0 for i, game in enumerate(max)])
 
 def part_b(input):
     return sum([prod(get_max_cols(game).values()) for game in input])
