@@ -1,5 +1,6 @@
 from textwrap import dedent
 from aocd import get_data, submit
+from math import prod
 
 '''---------------------------------------------------------------------------------------------------------
 PLOT SUMMARY:
@@ -49,22 +50,7 @@ def part_a(input):
     return sum([i+1 if all(int(game[key]) <= bag[key] for key in bag.keys()) else 0 for i, game in enumerate(max)])
 
 def part_b(input):
-    power_total = 0
-    for row in input:
-        max_cols =  {
-            "red": 0,
-            "green": 0,
-            "blue": 0
-        }
-
-        for draw in row:
-            this_number, this_colour = draw.split(' ')   
-            if int(this_number) > max_cols[this_colour]:
-                max_cols[this_colour] = int(this_number)
-                
-        power_total += max_cols['red'] * max_cols['green'] * max_cols['blue']
-        
-    return power_total
+    return sum([prod(get_max_cols(game).values()) for game in input])
 
 if __name__ == "__main__":
     # Testing
@@ -78,9 +64,9 @@ if __name__ == "__main__":
     
     test_data = format_data(test_string)
     assert part_a(test_data) == 8
-    #assert part_b(test_data) == 2286
+    assert part_b(test_data) == 2286
 
     # Submission
     data = format_data(get_data(day=2, year=2023))
     submit(part_a(data), part="a", day=2, year=2023)    
-    #submit(part_b(data), part="b", day=2, year=2023)
+    submit(part_b(data), part="b", day=2, year=2023)
