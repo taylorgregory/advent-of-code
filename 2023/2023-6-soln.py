@@ -19,7 +19,7 @@ def part_a(times, distances):
             if race_distance > int(distances[i]):
                 num_times_beaten += 1
         product = product * num_times_beaten
-    return product  
+    return product
 
 def part_b(time, distance):
         num_times_beaten = 0

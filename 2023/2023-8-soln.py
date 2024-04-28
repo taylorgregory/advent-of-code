@@ -1,6 +1,9 @@
 from aocd import get_data, submit
 import re
 import numpy as np
+from textwrap import dedent
+
+# Data is imported 
 
 def format_data(input_str):
     input_arr = input_str.splitlines()
@@ -21,6 +24,20 @@ def part_a(instructions, dict):
     return len(moves)-1
 
 def part_b(instructions, dict):
+    dedent("""\
+    A one-line summary of the module or program, terminated by a period.
+
+    Leave one blank line.  The rest of this docstring should contain an
+    overall description of the module or program.  Optionally, it may also
+    contain a brief description of exported classes and functions and/or usage
+    examples.
+
+    Typical usage example:
+
+    foo = ClassFoo()
+    bar = foo.FunctionBar()
+    """)
+
     # Obtaining a list of all the A starting points
     a_ending = {key: val for key, val in dict.items() if re.search(f"A$", key)}
     locations = list(a_ending.keys())
@@ -35,7 +52,11 @@ def part_b(instructions, dict):
 
     return np.lcm.reduce([len(x)-1 for x in all_moves])
 
+
+
 if __name__ == "__main__":
+
+    print(part_b.__doc__)
     # Testing
     test_string_1 = '''RL
 

@@ -1,4 +1,5 @@
 from aocd import get_data, submit
+import math
 
 def check_location(input, row, column):
     if input[row] and input[row][column].isnumeric():
@@ -20,76 +21,44 @@ def check_location(input, row, column):
         return 0
     
 def part_a(input):
+    part_a_input = input
     total = 0
-
-    for i, row in enumerate(input):
+    for i, row in enumerate(part_a_input):
         for j, char in enumerate(row):
             # if it is a special character
             if not char.isnumeric() and char != '.':
-                total += check_location(input, i-1, j-1)
-                total += check_location(input, i-1, j)
-                total += check_location(input, i-1, j+1)
-                total += check_location(input, i, j-1)
-                total += check_location(input, i, j+1)
-                total += check_location(input, i+1, j-1)
-                total += check_location(input, i+1, j)
-                total += check_location(input, i+1, j+1)   
-
+                total += check_location(part_a_input, i-1, j-1)
+                total += check_location(part_a_input, i-1, j)
+                total += check_location(part_a_input, i-1, j+1)
+                total += check_location(part_a_input, i, j-1)
+                total += check_location(part_a_input, i, j+1)
+                total += check_location(part_a_input, i+1, j-1)
+                total += check_location(part_a_input, i+1, j)
+                total += check_location(part_a_input, i+1, j+1)   
     return total
 
 def part_b(input):
+    part_b_input = input
     total = 0
-
-    for i, row in enumerate(input):
+    for i, row in enumerate(part_b_input):
         for j, char in enumerate(row):
             if char == '*':
-                
-                num_part_numbers = 0
-                product = 1
+                nearby_numbers = [1] * 8
+                nearby_numbers[0] += check_location(part_b_input, i-1,j-1)
+                nearby_numbers[1] += check_location(part_b_input, i-1,j)
+                nearby_numbers[2] += check_location(part_b_input, i-1,j+1)
+                nearby_numbers[3] += check_location(part_b_input, i,j-1)
+                nearby_numbers[4] += check_location(part_b_input, i,j+1)
+                nearby_numbers[5] += check_location(part_b_input, i+1,j-1)
+                nearby_numbers[6] += check_location(part_b_input, i+1,j)
+                nearby_numbers[7] += check_location(part_b_input, i+1,j+1)
 
-                top_left = check_location(input, i-1,j-1)
-                if (top_left > 0):
-                    product = product * top_left
-                    num_part_numbers += 1
+                print(nearby_numbers)
 
-                top = check_location(input, i-1,j)
-                if (top > 0):
-                    product = product * top 
-                    num_part_numbers += 1
-
-                top_right = check_location(input, i-1,j+1)
-                if (top_right > 0):
-                    product = product * top_right
-                    num_part_numbers += 1
-
-                left = check_location(input, i,j-1)
-                if (left > 0):
-                    product = product * left
-                    num_part_numbers += 1
-
-                right = check_location(input, i,j+1)
-                if (right > 0):
-                    product = product * right
-                    num_part_numbers += 1
-
-                bottom_left = check_location(input, i+1,j-1)
-                if (bottom_left > 0):
-                    product = product * bottom_left
-                    num_part_numbers += 1
-
-                bottom = check_location(input, i+1,j)
-                if (bottom > 0):
-                    product = product * bottom
-                    num_part_numbers += 1
-
-                bottom_right = check_location(input, i+1,j+1)
-                if (bottom_right > 0):
-                    product = product * bottom_right
-                    num_part_numbers += 1
-
-                if num_part_numbers == 2:
-                    total += product
-
+                if sum(x != 0 for x in nearby_numbers) == 2:
+                    total += math.prod(nearby_numbers)
+    
+    print(total)
     return total
 
 if __name__ == "__main__":
@@ -115,9 +84,9 @@ if __name__ == "__main__":
         row = [char for char in row]
 
     # Run tests for Part A and Part B
-    assert part_a(test_data) == 8
-    #assert part_b(test_data) == 2286
+    assert part_a(test_data) == 4361
+    assert part_b(test_data) == 467835
 
     # Submit answers for Part A and Part B
-    submit(part_a(data), part="a", day=2, year=2023)    
-    submit(part_b(data), part="b", day=2, year=2023)
+    submit(part_a(data), part="a", day=3, year=2023)    
+    submit(part_b(data), part="b", day=3, year=2023)
