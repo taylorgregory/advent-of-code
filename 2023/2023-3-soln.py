@@ -1,92 +1,84 @@
+from textwrap import dedent
 from aocd import get_data, submit
 import math
+import re
 
-def check_location(input, row, column):
-    if input[row] and input[row][column].isnumeric():
-        left_loc = column
-        while left_loc > 0 and input[row][left_loc-1].isnumeric():
-            left_loc -= 1
-        
-        right_loc = column
-        while right_loc < len(input[row]) - 1 and input[row][right_loc+1].isnumeric():
-            right_loc += 1
+'''---------------------------------------------------------------------------------------------------------
+PLOT SUMMARY:
+* You reach a station containing gondola lifts that will take you to the water source
+* The gondola lifts are not working, and an engineer Elf explains that the engine is missing a part
+* It is unclear which part is missing, and so you use the engine schematic (puzzle input A) to work this out
+---------------------------------------------------------------------------------------------------------'''
 
-        number = ''
-        for k in range(left_loc, right_loc+1):
-            number += str(input[row][k])
-            input[row][k] = '.'
+'''---------------------------------------------------------------------------------------------------------
+FORMAT_DATA() SUMMARY:
+format_data() is a helper function to reformat the string input into an array of arrays, such that each
+character is an element of the subarray.
+---------------------------------------------------------------------------------------------------------'''
+def format_data(input_str):
+    return [[char for char in x] for x in input_str.splitlines()]
+
+# input: non-numerical character
+# output: a list of all surrounding numbers
+# assumption: a single number doesn't touch two non-numerical characters    
+def find_surrounding_numbers(input, row, col):
+    lbound = max(col-1, 0)
+    rbound = min(col+1, len(input[row])-1)      
+    ranges = [(row-1, lbound, rbound), (row, lbound, lbound), (row, rbound, rbound), (row+1, lbound, rbound)]
+
+    all_nums = []
+    for r, left_pos, right_pos in ranges:
+        while left_pos > 0 and input[r][left_pos].isnumeric() and input[r][left_pos-1].isnumeric():
+            left_pos -= 1
         
-        return int(number)
-    else:
-        return 0
-    
+        while right_pos < len(input[row])-1 and input[r][right_pos].isnumeric() and input[r][right_pos+1].isnumeric():
+            right_pos += 1
+
+        unfiltered_list = ''.join(input[r][left_pos:right_pos+1]).split('.')
+        all_nums.extend([int(x) for x in unfiltered_list if x])
+
+    return all_nums
+
 def part_a(input):
-    part_a_input = input
     total = 0
-    for i, row in enumerate(part_a_input):
+    for i, row in enumerate(input):
         for j, char in enumerate(row):
-            # if it is a special character
             if not char.isnumeric() and char != '.':
-                total += check_location(part_a_input, i-1, j-1)
-                total += check_location(part_a_input, i-1, j)
-                total += check_location(part_a_input, i-1, j+1)
-                total += check_location(part_a_input, i, j-1)
-                total += check_location(part_a_input, i, j+1)
-                total += check_location(part_a_input, i+1, j-1)
-                total += check_location(part_a_input, i+1, j)
-                total += check_location(part_a_input, i+1, j+1)   
+                total += sum(find_surrounding_numbers(input, i, j)) 
     return total
 
 def part_b(input):
-    part_b_input = input
     total = 0
-    for i, row in enumerate(part_b_input):
+    for i, row in enumerate(input):
         for j, char in enumerate(row):
             if char == '*':
-                nearby_numbers = [1] * 8
-                nearby_numbers[0] += check_location(part_b_input, i-1,j-1)
-                nearby_numbers[1] += check_location(part_b_input, i-1,j)
-                nearby_numbers[2] += check_location(part_b_input, i-1,j+1)
-                nearby_numbers[3] += check_location(part_b_input, i,j-1)
-                nearby_numbers[4] += check_location(part_b_input, i,j+1)
-                nearby_numbers[5] += check_location(part_b_input, i+1,j-1)
-                nearby_numbers[6] += check_location(part_b_input, i+1,j)
-                nearby_numbers[7] += check_location(part_b_input, i+1,j+1)
-
-                print(nearby_numbers)
-
-                if sum(x != 0 for x in nearby_numbers) == 2:
-                    total += math.prod(nearby_numbers)
-    
-    print(total)
+                surrounding_numbers = find_surrounding_numbers(input, i, j)
+                if (len(surrounding_numbers) == 2):
+                    total += math.prod(surrounding_numbers)
     return total
 
 if __name__ == "__main__":
 
     # Get all data
-    test_data = '''467..114..
-...*......
-..35..633.
-......#...
-617*......
-.....+.58.
-..592.....
-......755.
-...$.*....
-.664.598..'''.splitlines()
+    test_string = dedent("""
+        467..114..
+        ...*......
+        ..35..633.
+        ......#...
+        617*......
+        .....+.58.
+        ..592.....
+        ......755.
+        ...$.*....
+        .664.598..
+    """).strip("\n")
     
-    for i, row in enumerate(test_data):
-        test_data[i] = [char for char in test_data[i]]
-
-    data = get_data(day=3, year=2023).splitlines()
-    
-    for row in data:
-        row = [char for char in row]
-
     # Run tests for Part A and Part B
+    test_data = format_data(test_string)
     assert part_a(test_data) == 4361
     assert part_b(test_data) == 467835
 
     # Submit answers for Part A and Part B
+    data = format_data(get_data(day=3, year=2023))
     submit(part_a(data), part="a", day=3, year=2023)    
     submit(part_b(data), part="b", day=3, year=2023)
