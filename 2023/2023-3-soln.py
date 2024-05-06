@@ -34,8 +34,7 @@ def find_surrounding_numbers(input, row, col):
         while right_pos < len(input[row])-1 and input[r][right_pos].isnumeric() and input[r][right_pos+1].isnumeric():
             right_pos += 1
 
-        unfiltered_list = ''.join(input[r][left_pos:right_pos+1]).split('.')
-        all_nums.extend([int(x) for x in unfiltered_list if x])
+        all_nums.extend([int(x) for x in ''.join(input[r][left_pos:right_pos+1]).split('.') if x])
 
     return all_nums
 
