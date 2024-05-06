@@ -22,19 +22,15 @@ def format_data(input_str):
 # output: a list of all surrounding numbers
 # assumption: a single number doesn't touch two non-numerical characters    
 def find_surrounding_numbers(input, row, col):
-    lbound = max(col-1, 0)
-    rbound = min(col+1, len(input[row])-1)      
-    ranges = [(row-1, lbound, rbound), (row, lbound, lbound), (row, rbound, rbound), (row+1, lbound, rbound)]
-
     all_nums = []
-    for r, left_pos, right_pos in ranges:
-        while left_pos > 0 and input[r][left_pos].isnumeric() and input[r][left_pos-1].isnumeric():
-            left_pos -= 1
-        
-        while right_pos < len(input[row])-1 and input[r][right_pos].isnumeric() and input[r][right_pos+1].isnumeric():
-            right_pos += 1
+    for r in [row-1, row, row+1]:
+        l_pos = max(col-1, 0)
+        r_pos = min(col+1, len(input[row])-1)  
 
-        all_nums.extend([int(x) for x in ''.join(input[r][left_pos:right_pos+1]).split('.') if x])
+        while l_pos > 0 and input[r][l_pos].isnumeric() and input[r][l_pos-1].isnumeric(): l_pos -= 1
+        while r_pos < len(input[row])-1 and input[r][r_pos].isnumeric() and input[r][r_pos+1].isnumeric(): r_pos += 1
+
+        all_nums.extend([int(x) for x in ''.join(input[r][l_pos:r_pos+1]).replace(input[row][col], '.').split('.') if x])
 
     return all_nums
 
@@ -57,8 +53,7 @@ def part_b(input):
     return total
 
 if __name__ == "__main__":
-
-    # Get all data
+    # Test data
     test_string = dedent("""
         467..114..
         ...*......
@@ -79,5 +74,7 @@ if __name__ == "__main__":
 
     # Submit answers for Part A and Part B
     data = format_data(get_data(day=3, year=2023))
-    submit(part_a(data), part="a", day=3, year=2023)    
-    submit(part_b(data), part="b", day=3, year=2023)
+    print(part_a(data))
+    print(part_b(data))
+    #submit(part_a(data), part="a", day=3, year=2023)    
+    #submit(part_b(data), part="b", day=3, year=2023)
